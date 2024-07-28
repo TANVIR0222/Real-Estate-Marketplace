@@ -1,43 +1,86 @@
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const SingUp = () => {
+  const [fromdata, setFromdata] = useState({});
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setFromdata({ ...fromdata, [e.target.id]: e.target.value });
+  };
+
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+
+    const res = await fetch('http://localhost:5000/api/auth/singup',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(fromdata)
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+  }
   return (
-    <div className="">
+    <div>
       <div className=" max-w-lg justify-center p-6 mx-auto my-20 border-dotted border-2 border-indigo-600">
         <h1 className="text-3xl font-bold text-center mb-5">Sing up</h1>
-        <form className="flex max-w-md flex-col gap-4">
+        <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit}>
           <div>
             <div className="mb-2 block">
-              <Label htmlFor="password1" value="Your Name" />
-            </div>
-            <TextInput id="password1" type="password" required />
-          </div>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="email1" value="Your email" />
+              <Label htmlFor="name" value="Your Name" />
             </div>
             <TextInput
-              id="email1"
-              type="email"
-              placeholder="email@.com"
-              required
-            />
+                id="username"
+                type="text"
+                placeholder="tanvir_islam"
+                required
+                onChange={handleChange}
+              />
           </div>
           <div>
             <div className="mb-2 block">
-              <Label htmlFor="password1" value="Your password" />
+              <Label htmlFor="email" value="Your email" />
             </div>
-            <TextInput id="password1" type="password" required />
+            <TextInput
+                id="email"
+                type="email"
+                placeholder="name@flowbite.com"
+                required
+                onChange={handleChange}
+              />
+          </div>
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="password" value="Your password" />
+            </div>
+            <TextInput
+                id="password"
+                type="password"
+                required
+                onChange={handleChange}
+              />
           </div>
           <div className="flex items-center gap-2">
             <Checkbox id="remember" />
             <Label htmlFor="remember">Remember me</Label>
           </div>
-          <Button className=" uppercase" type="submit">sing up</Button>
+          <Button className=" uppercase" type="submit">
+            sing up
+          </Button>
         </form>
-        <div >
-            <p  className="text-center text-gray-500 mt-4">Already have an account? <span className=" text-blue-600 "><Link to={'/singin'}>sing in</Link></span> </p>
+        <div>
+          <p className="text-center text-gray-500 mt-4">
+            Already have an account?{" "}
+            <span className=" text-blue-600 ">
+              <Link to={"/singin"}>sing in</Link>
+            </span>{" "}
+          </p>
         </div>
       </div>
     </div>
