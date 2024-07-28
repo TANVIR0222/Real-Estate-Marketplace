@@ -3,8 +3,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const SingUp = () => {
-  const [fromdata, setFromdata] = useState({});
 
+
+  const [fromdata, setFromdata] = useState({});
   const handleChange = (e) => {
     e.preventDefault();
     setFromdata({ ...fromdata, [e.target.id]: e.target.value });
