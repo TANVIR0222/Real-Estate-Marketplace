@@ -1,32 +1,48 @@
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SingUp = () => {
-
-
   const [fromdata, setFromdata] = useState({});
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     e.preventDefault();
     setFromdata({ ...fromdata, [e.target.id]: e.target.value });
   };
 
+  const handleSubmit = async (e) => {
 
-  const handleSubmit = async(e) => {
     e.preventDefault();
-
-    const res = await fetch('http://localhost:5000/api/auth/singup',{
-        method: 'POST',
+    try {
+      setLoading(true);
+      const res = await fetch("http://localhost:5000/api/auth/singup", {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(fromdata)
-    });
+        body: JSON.stringify(fromdata),
+      });
+    //   ison akare data database send 
+      const data = await res.json();
+      // success using server side index.js
+      if (data.success === false) {
+        setError(data.message);
+        setLoading(false);
+        return;
+      }
+      // loading shesh tai
+      setLoading(false);
+      setError(null);
+      navigate("/singin");
 
-    const data = await res.json();
-    console.log(data);
-
-  }
+    } catch (err) {
+      setError(err.message);
+    }
+    
+  };
   return (
     <div>
       <div className=" max-w-lg justify-center p-6 mx-auto my-20 border-dotted border-2 border-indigo-600">
@@ -37,42 +53,42 @@ const SingUp = () => {
               <Label htmlFor="name" value="Your Name" />
             </div>
             <TextInput
-                id="username"
-                type="text"
-                placeholder="tanvir_islam"
-                required
-                onChange={handleChange}
-              />
+              id="username"
+              type="text"
+              placeholder="tanvir_islam"
+              required
+              onChange={handleChange}
+            />
           </div>
           <div>
             <div className="mb-2 block">
               <Label htmlFor="email" value="Your email" />
             </div>
             <TextInput
-                id="email"
-                type="email"
-                placeholder="name@flowbite.com"
-                required
-                onChange={handleChange}
-              />
+              id="email"
+              type="email"
+              placeholder="name@flowbite.com"
+              required
+              onChange={handleChange}
+            />
           </div>
           <div>
             <div className="mb-2 block">
               <Label htmlFor="password" value="Your password" />
             </div>
             <TextInput
-                id="password"
-                type="password"
-                required
-                onChange={handleChange}
-              />
+              id="password"
+              type="password"
+              required
+              onChange={handleChange}
+            />
           </div>
           <div className="flex items-center gap-2">
             <Checkbox id="remember" />
             <Label htmlFor="remember">Remember me</Label>
           </div>
-          <Button className=" uppercase" type="submit">
-            sing up
+          <Button className=" uppercase" type="submit" disabled={loading}>
+            {loading ? "Loading..." : " Sing up "}
           </Button>
         </form>
         <div>
@@ -83,6 +99,7 @@ const SingUp = () => {
             </span>{" "}
           </p>
         </div>
+        {error && <p className="text-red-500 mt-5">{error}</p>}
       </div>
     </div>
   );

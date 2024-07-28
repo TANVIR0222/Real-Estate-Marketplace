@@ -39,7 +39,7 @@ const Header = () => {
           <Link to={'/about'} >About</Link>
         </Navbar.Link>
         <Navbar.Link active={usePath === '/singin'} as={'div'}>
-          <Link to={'/singup'} >SingUp</Link>
+          <Link to={'/singin'} >Singin</Link>
         </Navbar.Link>
         </Navbar.Collapse>
       </Navbar>
