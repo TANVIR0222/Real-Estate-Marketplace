@@ -5,7 +5,7 @@ const Header = () => {
     const usePath = useLocation().pathname;
   return (
     <div>
-      <Navbar fluid rounded className="z-1 mx-20">
+      <Navbar fluid rounded className="z-1 bg-slate-200">
         <Navbar.Brand as={Link} href="https://flowbite-react.com">
           <span className="self-center uppercase hover:text-red-400 whitespace-nowrap text-xl font-semibold dark:text-white">
             House Booking
@@ -39,7 +39,7 @@ const Header = () => {
           <Link to={'/about'} >About</Link>
         </Navbar.Link>
         <Navbar.Link active={usePath === '/singin'} as={'div'}>
-          <Link to={'/singin'} >Singin</Link>
+          <Link to={'/singup'} >SingUp</Link>
         </Navbar.Link>
         </Navbar.Collapse>
       </Navbar>

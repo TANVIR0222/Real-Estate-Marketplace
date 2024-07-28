@@ -2,7 +2,7 @@
 const Singin = () => {
     return (
         <div>
-            
+            sing in
         </div>
     );
 };
