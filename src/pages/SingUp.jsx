@@ -99,7 +99,7 @@ const SingUp = () => {
             </span>{" "}
           </p>
         </div>
-        {error && <p className="text-red-500 mt-5">{error}</p>}
+        {error && <p className="text-red-500 text-center mt-5">{error}</p>}
       </div>
     </div>
   );

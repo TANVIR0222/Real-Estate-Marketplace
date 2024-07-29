@@ -1,11 +1,17 @@
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {useDispatch, useSelector} from 'react-redux'
+import  singInStart, { singInFailure, singInSuccess }  from "../redux/user/usersSlice";
+
 const Singin = () => {
     const [fromdata, setFromdata] = useState({});
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const {loading , error} = useSelector((state) => state.user)
   const navigate = useNavigate();
+
+  // redux-
+  const dispatch = useDispatch();
+
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -16,7 +22,7 @@ const Singin = () => {
 
     e.preventDefault();
     try {
-      setLoading(true);
+      dispatch(singInStart());
       const res = await fetch("http://localhost:5000/api/auth/singin", {
         method: "POST",
         headers: {
@@ -24,21 +30,19 @@ const Singin = () => {
         },
         body: JSON.stringify(fromdata),
       });
-    //   ison akare data database send 
+    //   ison akare data database send
       const data = await res.json();
       // success using server side index.js
       if (data.success === false) {
-        setError(data.message);
-        setLoading(false);
+        dispatch(singInFailure(data.message))
         return;
       }
       // loading shesh tai
-      setLoading(false);
-      setError(null);
+      dispatch(singInSuccess(data))
       navigate("/");
 
     } catch (err) {
-      setError(err.message);
+      dispatch(singInFailure(err.message))
     }
 }
     return (
@@ -85,7 +89,7 @@ const Singin = () => {
             </span>{" "}
           </p>
         </div>
-        {error && <p className="text-red-500 mt-5">{error}</p>}
+        {error && <p className="text-red-500 text-center mt-5">{error}</p>}
       </div>
     </div>
     );
