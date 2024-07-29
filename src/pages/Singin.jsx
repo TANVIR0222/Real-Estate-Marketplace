@@ -2,7 +2,7 @@ import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux'
-import  singInStart, { singInFailure, singInSuccess }  from "../redux/user/usersSlice";
+import   { singInStart, singInFailure, singInSuccess }  from "../redux/user/usersSlice";
 
 const Singin = () => {
     const [fromdata, setFromdata] = useState({});
