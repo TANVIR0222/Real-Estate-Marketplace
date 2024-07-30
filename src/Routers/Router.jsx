@@ -7,6 +7,7 @@ import Profile from "../pages/Profile";
 import SingUp from "../pages/SingUp";
 import Singin from "../pages/Singin";
 import About from "../pages/About";
+import PrivetRoute from "../components/PrivetRoute";
  export const router = createBrowserRouter([
     {
       path: "/",
@@ -18,7 +19,7 @@ import About from "../pages/About";
         },
         {
             path: "/profile",
-            element:<Profile></Profile>
+            element:<PrivetRoute><Profile></Profile></PrivetRoute>
         },
         {
             path: "/singup",

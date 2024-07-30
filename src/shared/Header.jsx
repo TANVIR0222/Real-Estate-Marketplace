@@ -1,8 +1,10 @@
 import { Navbar } from "flowbite-react";
+import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
     const usePath = useLocation().pathname;
+    const {currentUser} = useSelector((state) => state.user);
   return (
     <div>
       <Navbar fluid rounded className="z-1 bg-slate-200">
@@ -39,7 +41,9 @@ const Header = () => {
           <Link to={'/about'} >About</Link>
         </Navbar.Link>
         <Navbar.Link active={usePath === '/singin'} as={'div'}>
-          <Link to={'/singin'} >Singin</Link>
+          {currentUser ? 
+          <Link to={'/profile'} ><img className=" rounded-full w-7 h-7 object-contain items-center" src={currentUser.avatar} alt="profile" /></Link>
+          : <Link to={'/singin'} >Singin</Link>}
         </Navbar.Link>
         </Navbar.Collapse>
       </Navbar>
