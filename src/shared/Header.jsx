@@ -3,11 +3,17 @@ import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
-    const usePath = useLocation().pathname;
-    const {currentUser} = useSelector((state) => state.user);
+  const usePath = useLocation().pathname;
+  const { currentUser } = useSelector((state) => state.user);
+
+  // const handleSingout = () => {
+  //   signOut(auth);
+  // };
   return (
     <div>
       <Navbar fluid rounded className="z-1 bg-slate-200">
+        {/* update */}
+
         <Navbar.Brand as={Link} href="https://flowbite-react.com">
           <span className="self-center uppercase hover:text-red-400 whitespace-nowrap text-xl font-semibold dark:text-white">
             House Booking
@@ -33,18 +39,34 @@ const Header = () => {
           </svg>
         </form>
         <Navbar.Toggle />
+
         <Navbar.Collapse>
-        <Navbar.Link active={usePath === '/'} as={'div'}>
-          <Link to={'/'} >Home</Link>
-        </Navbar.Link>
-        <Navbar.Link active={usePath === '/about'} as={'div'}>
-          <Link to={'/about'} >About</Link>
-        </Navbar.Link>
-        <Navbar.Link active={usePath === '/singin'} as={'div'}>
-          {currentUser ?
-          <Link to={'/userprofile'} ><img className=" rounded-full w-7 h-7 object-contain items-center" src={currentUser.avatar} alt="profile" /></Link>
-          : <Link to={'/singin'} >Singin</Link>}
-        </Navbar.Link>
+          <Navbar.Link
+            className="text-black"
+            active={usePath === "/"}
+            as={"div"}
+          >
+            <Link to={"/"}>Home</Link>
+          </Navbar.Link>
+          <Navbar.Link
+            className="text-black"
+            active={usePath === "/about"}
+            as={"div"}
+          >
+            <Link to={"/about"}>About</Link>
+          </Navbar.Link>
+
+          <Navbar.Link
+            className="text-black"
+            active={usePath === "/singin"}
+            as={"div"}
+          >
+            {currentUser ? (
+              <Link to={'/userprofile'}><img className="w-8 h-8" src={currentUser.avatar}/></Link>
+            ) : (
+              <Link to={"/singin"}>Singin</Link>
+            )}
+          </Navbar.Link>
         </Navbar.Collapse>
       </Navbar>
     </div>
@@ -52,5 +74,3 @@ const Header = () => {
 };
 
 export default Header;
-
-
