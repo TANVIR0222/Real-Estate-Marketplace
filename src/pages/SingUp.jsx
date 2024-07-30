@@ -1,6 +1,7 @@
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OAath from "../components/OAath";
 
 const SingUp = () => {
   const [fromdata, setFromdata] = useState({});
@@ -90,6 +91,8 @@ const SingUp = () => {
           <Button className=" uppercase" type="submit" disabled={loading}>
             {loading ? "Loading..." : " Sing up "}
           </Button>
+          {/* google sing up  */}
+          <OAath/>
         </form>
         <div>
           <p className="text-center text-gray-500 mt-4">

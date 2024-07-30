@@ -1,17 +1,22 @@
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {useDispatch, useSelector} from 'react-redux'
-import   { singInStart, singInFailure, singInSuccess }  from "../redux/user/usersSlice";
+import { useDispatch } from "react-redux";
+import {
+  singInStart,
+  singInFailure,
+  singInSuccess,
+} from "../redux/user/usersSlice";
+import OAath from "../components/OAath";
+// import OAath from "../components/OAath";
 
 const Singin = () => {
-    const [fromdata, setFromdata] = useState({});
-  const {loading , error} = useSelector((state) => state.user)
+  const [fromdata, setFromdata] = useState({});
+  // const { loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
   // redux-
   const dispatch = useDispatch();
-
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -19,7 +24,6 @@ const Singin = () => {
   };
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
     try {
       dispatch(singInStart());
@@ -30,23 +34,22 @@ const Singin = () => {
         },
         body: JSON.stringify(fromdata),
       });
-    //   ison akare data database send
+      //   ison akare data database send
       const data = await res.json();
       // success using server side index.js
       if (data.success === false) {
-        dispatch(singInFailure(data.message))
+        dispatch(singInFailure(data.message));
         return;
       }
       // loading shesh tai
-      dispatch(singInSuccess(data))
+      dispatch(singInSuccess(data));
       navigate("/");
-
     } catch (err) {
-      dispatch(singInFailure(err.message))
+      dispatch(singInFailure(err.message));
     }
-}
-    return (
-        <div>
+  };
+  return (
+    <div>
       <div className=" max-w-lg justify-center p-6 mx-auto my-20 border-dotted border-2 border-indigo-600">
         <h1 className="text-3xl font-bold text-center mb-5">Sing In</h1>
         <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit}>
@@ -77,10 +80,12 @@ const Singin = () => {
             <Checkbox id="remember" />
             <Label htmlFor="remember">Remember me</Label>
           </div>
-          <Button className=" uppercase" type="submit" disabled={loading}>
-            {loading ? "Loading..." : " Sing up "}
+          <Button className=" uppercase" type="submit">
+            Singin
           </Button>
         </form>
+        <OAath/>
+
         <div>
           <p className="text-center text-gray-500 mt-4">
             Already have an account?{" "}
@@ -89,10 +94,9 @@ const Singin = () => {
             </span>{" "}
           </p>
         </div>
-        {error && <p className="text-red-500 text-center mt-5">{error}</p>}
+        {/* {error && <p className="text-red-500 text-center mt-5">{error}</p>} */}
       </div>
     </div>
-    );
+  );
 };
-
 export default Singin;
