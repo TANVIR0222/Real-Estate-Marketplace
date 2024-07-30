@@ -1,9 +1,8 @@
 import { useSelector } from "react-redux";
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet ,  Navigate } from "react-router-dom";
 
-const PrivetRoute = () => {
+
+export default function PrivetRoute() {
     const {currentUser} = useSelector((state) => state.user);
     return currentUser ? <Outlet/> : <Navigate to={'/singin'}/>
-};
-
-export default PrivetRoute;
+}

@@ -41,8 +41,8 @@ const Header = () => {
           <Link to={'/about'} >About</Link>
         </Navbar.Link>
         <Navbar.Link active={usePath === '/singin'} as={'div'}>
-          {currentUser ? 
-          <Link to={'/profile'} ><img className=" rounded-full w-7 h-7 object-contain items-center" src={currentUser.avatar} alt="profile" /></Link>
+          {currentUser ?
+          <Link to={'/userprofile'} ><img className=" rounded-full w-7 h-7 object-contain items-center" src={currentUser.avatar} alt="profile" /></Link>
           : <Link to={'/singin'} >Singin</Link>}
         </Navbar.Link>
         </Navbar.Collapse>

@@ -3,11 +3,10 @@ import {
   } from "react-router-dom";
 import Main from "../Main/Main";
 import Home from "../pages/Home";
-import Profile from "../pages/Profile";
 import SingUp from "../pages/SingUp";
 import Singin from "../pages/Singin";
 import About from "../pages/About";
-import PrivetRoute from "../components/PrivetRoute";
+import UserProfile from "../pages/UserProfile";
  export const router = createBrowserRouter([
     {
       path: "/",
@@ -18,8 +17,8 @@ import PrivetRoute from "../components/PrivetRoute";
             element:<Home></Home>
         },
         {
-            path: "/profile",
-            element:<PrivetRoute><Profile></Profile></PrivetRoute>
+            path: "/userprofile",
+            element:<UserProfile></UserProfile>
         },
         {
             path: "/singup",
