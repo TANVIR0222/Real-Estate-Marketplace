@@ -1,6 +1,6 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { app } from "../firebase/firebase.config";
 import {
   getDownloadURL,
@@ -8,6 +8,7 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
+import { uploadeUserFailure, uploadeUserSussecss } from "../redux/user/usersSlice";
 
 const UserProfile = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -22,8 +23,7 @@ const UserProfile = () => {
   // frome data
   const [formData, setFormData] = useState({});
 
-  // console.log(formData);
-  // console.log(file);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (file) {
@@ -58,13 +58,57 @@ const UserProfile = () => {
     );
   };
 
+  const handleChange = (e) => {
+    setFormData({...formData , [e.target.id]: e.target.value })
+  }
+
+  const handleSubmit =async (e) =>{
+    e.preventDefault();
+    try {
+      const res = await fetch(`http://localhost:5000/api/user/update/${currentUser._id}`,{
+        method:'POST',
+        headers:{
+          'Content-Type' : 'application/json',
+        },
+        body: JSON.stringify(formData)
+      })
+      const data = await res.json();
+      if(data.success === false){
+        dispatch(uploadeUserFailure(data.message))
+        return;
+      }
+      dispatch(uploadeUserSussecss(data))
+    } catch (err) {
+      dispatch(uploadeUserFailure(err.message))
+    } 
+  }
+
+  const handleDeleteUser = async () => {
+    try {
+      // dispatch(deleteUserStart());
+      const res = await fetch(`http://localhost:5000/api/user/delete/${currentUser._id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        // dispatch(deleteUserFailure(data.message));
+        return;
+      }
+      // dispatch(deleteUserSuccess(data));
+    } catch (error) {
+      // 
+    }
+  };
+
+  
+
   return (
     <div>
       <div className=" max-w-lg justify-center p-6 mx-auto my-20 border-dotted border-2 border-green-500">
         <h1 className="text-black text-center text-4xl font-semibold my-5">
           My Profile
         </h1>
-        <form className="flex max-w-md flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex max-w-md flex-col gap-4">
           <div className="flex flex-col items-center justify-center">
             <input
               onChange={(e) => setFile(e.target.files[0])}
@@ -104,7 +148,9 @@ const UserProfile = () => {
             <TextInput
               id="username"
               type="text"
+              defaultValue={currentUser.username}
               placeholder="tanvir_islam"
+              onChange={handleChange}
               required
             />
           </div>
@@ -115,7 +161,9 @@ const UserProfile = () => {
             <TextInput
               id="email"
               type="email"
+              defaultValue={currentUser.email}
               placeholder="name@flowbite.com"
+              onChange={handleChange}
               required
             />
           </div>
@@ -123,13 +171,17 @@ const UserProfile = () => {
             <div className="mb-2 block">
               <Label htmlFor="password" value="Your password" />
             </div>
-            <TextInput id="password" type="password" required />
+            <TextInput
+             id="password" 
+             type="password" 
+             onChange={handleChange} />
+             required
           </div>
           {/*  */}
           <Button type="submit">Update</Button>
           <div className=" flex justify-between">
-            <span className="text-red-700 cursor-pointer">Deletet account</span>
-            <span className="text-red-700 cursor-pointer">Sing out</span>
+            <span onClick={handleDeleteUser} className="text-red-700 cursor-pointer">Deletet account</span>
+            <span  className="text-red-700 cursor-pointer">Sing out</span>
           </div>
         </form>
       </div>
